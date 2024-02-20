@@ -178,8 +178,8 @@ class TodoItemsCompanion extends UpdateCompanion<TodoItem> {
   }
 }
 
-abstract class _$TodoDatabase extends GeneratedDatabase {
-  _$TodoDatabase(QueryExecutor e) : super(e);
+abstract class _$AppDatabase extends GeneratedDatabase {
+  _$AppDatabase(QueryExecutor e) : super(e);
   late final $TodoItemsTable todoItems = $TodoItemsTable(this);
   @override
   Iterable<TableInfo<Table, Object?>> get allTables =>

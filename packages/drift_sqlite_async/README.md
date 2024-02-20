@@ -8,6 +8,32 @@ Supported functionality:
 3. Table updates are propagated between sqlite_async and Drift - watching queries works using either API.
 4. Select queries can run concurrently with writes and other select statements.
 
+
+## Usage
+
+Use `SqliteAsyncDriftConnection` to create a DatabaseConnection / QueryExecutor for Drift from the sqlite_async SqliteDatabase:
+
+```dart
+@DriftDatabase(tables: [TodoItems])
+class AppDatabase extends _$AppDatabase {
+  AppDatabase(SqliteConnection db) : super(SqliteAsyncDriftConnection(db));
+
+  @override
+  int get schemaVersion => 1;
+}
+
+Future<void> main() async {
+  // The sqlite_async db
+  final db = SqliteDatabase(path: 'example.db');
+  // The Drift db
+  final appdb = AppDatabase(db);
+}
+```
+
+A full example is in the `examples/` folder.
+
+For details on table definitions and using the database, see the [Drift documentation](https://drift.simonbinder.eu/).
+
 ## Transactions and concurrency
 
 sqlite_async uses WAL mode and multiple read connections by default, and this

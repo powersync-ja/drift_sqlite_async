@@ -13,8 +13,8 @@ class TodoItems extends Table {
 }
 
 @DriftDatabase(tables: [TodoItems])
-class TodoDatabase extends _$TodoDatabase {
-  TodoDatabase(SqliteConnection db) : super(SqliteAsyncDriftConnection(db));
+class AppDatabase extends _$AppDatabase {
+  AppDatabase(SqliteConnection db) : super(SqliteAsyncDriftConnection(db));
 
   @override
   int get schemaVersion => 1;
@@ -36,16 +36,16 @@ Future<void> main() async {
   await db.execute(
       'CREATE TABLE IF NOT EXISTS todos(id integer primary key, description text)');
 
-  final tdb = TodoDatabase(db);
+  final appdb = AppDatabase(db);
 
   // Watch a query on the Drift database
-  tdb.select(tdb.todoItems).watch().listen((todos) {
+  appdb.select(appdb.todoItems).watch().listen((todos) {
     print('Todos: $todos');
   });
 
   // Insert using the Drift database
-  await tdb
-      .into(tdb.todoItems)
+  await appdb
+      .into(appdb.todoItems)
       .insert(TodoItemsCompanion.insert(description: 'Test Drift'));
 
   // Insert using the sqlite_async database
@@ -53,6 +53,6 @@ Future<void> main() async {
 
   await Future.delayed(const Duration(milliseconds: 100));
 
-  await tdb.close();
+  await appdb.close();
   await db.close();
 }
