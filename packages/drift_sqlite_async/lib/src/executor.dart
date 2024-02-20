@@ -7,6 +7,7 @@ import 'package:sqlite_async/sqlite_async.dart';
 
 class _SqliteAsyncDelegate extends DatabaseDelegate {
   final SqliteConnection db;
+  bool _closed = false;
 
   _SqliteAsyncDelegate(this.db);
 
@@ -19,7 +20,7 @@ class _SqliteAsyncDelegate extends DatabaseDelegate {
       const NoTransactionDelegate();
 
   @override
-  bool get isOpen => !db.closed;
+  bool get isOpen => !db.closed && !_closed;
 
   // Ends with " RETURNING *", or starts with insert/update/delete.
   // Drift-generated queries will always have the RETURNING *.
@@ -35,8 +36,9 @@ class _SqliteAsyncDelegate extends DatabaseDelegate {
   }
 
   @override
-  Future<void> close() {
-    return db.close();
+  Future<void> close() async {
+    // We don't own the underlying SqliteConnection - don't close it.
+    _closed = true;
   }
 
   @override
