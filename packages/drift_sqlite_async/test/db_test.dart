@@ -46,7 +46,8 @@ void main() {
 
     test('watch', () async {
       var stream = dbu.select(dbu.todoItems).watch();
-      var resultsPromise = stream.distinct().take(3).toList();
+      var resultsPromise =
+          stream.distinct().skipWhile((e) => e.isEmpty).take(3).toList();
 
       await dbu.into(dbu.todoItems).insert(
           TodoItemsCompanion.insert(id: Value(1), description: 'Test 1'));
@@ -70,7 +71,8 @@ void main() {
 
     test('watch with external updates', () async {
       var stream = dbu.select(dbu.todoItems).watch();
-      var resultsPromise = stream.distinct().take(3).toList();
+      var resultsPromise =
+          stream.distinct().skipWhile((e) => e.isEmpty).take(3).toList();
 
       await db.execute(
           'INSERT INTO todos(id, description) VALUES(?, ?)', [1, 'Test 1']);
