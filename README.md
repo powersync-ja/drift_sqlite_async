@@ -4,6 +4,4 @@ Moved to the https://github.com/powersync-ja/sqlite_async.dart repo.
 
 # drift_sqlite_async
 
-`drift_sqlite_async` allows using drift on an sqlite_async database - the APIs from both can be seamlessly used together in the same application.
-
-See [./packages/drift_sqlite_async](./packages/drift_sqlite_async) for details.
+This repo has been moved into the monorepo [sqlite_async.dart](https://github.com/powersync-ja/sqlite_async.dart). It can be found [here](https://github.com/powersync-ja/sqlite_async.dart/tree/main/packages/drift_sqlite_async).
